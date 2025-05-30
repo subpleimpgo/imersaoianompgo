@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA para Área Jurídica - Cheat Sheet MP-GO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5aa0 50%, #00b894 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a365d 0%, #00b894 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #00b894;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00b894, #1a365d);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            color: #34495e;
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 5px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #00b894, #1a365d);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .highlight::before {
+            content: '💡';
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .warning::before {
+            content: '⚠️';
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #27ae60, #16a085);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .success::before {
+            content: '✅';
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .code-example {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-example::before {
+            content: 'Exemplo:';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #34495e;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .process-steps {
+            counter-reset: step;
+        }
+
+        .process-steps li {
+            counter-increment: step;
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 15px;
+        }
+
+        .process-steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #00b894;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: #1a365d;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .footer {
+            background: #1a365d;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+
+        .platform-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .platform-card {
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .platform-card:hover {
+            border-color: #00b894;
+            transform: translateY(-3px);
+        }
+
+        .platform-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .pros {
+            color: #27ae60;
+            font-size: 0.9rem;
+        }
+
+        .cons {
+            color: #e74c3c;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Imersão IA - 1ª Edição</h1>
+            <div class="subtitle">Dicas práticas e solução de dúvidas sobre a utilização de Inteligência Artificial no dia a dia profissional</div>
+            <div class="badge">30/05/2025 | Ministério Público de Goiás - SubPLEI</div>
+        </div>
+
+        <div class="content">
+            <div class="grid">
+                
+                <div class="card">
+                    <h2>🧠 Conceitos Fundamentais</h2>
+                    
+                    <h3>O que são LLMs?</h3>
+                    <p><strong>Large Language Models</strong> são sistemas de IA que processam texto usando cálculos probabilísticos de tokens (unidades de texto).</p>
+                    
+                    <div class="highlight">
+                        <strong>Analogia:</strong> Um LLM é como uma calculadora avançada que, em vez de números, calcula a probabilidade da próxima palavra em um texto.
+                    </div>
+                    
+                    <h3>Principais Modelos</h3>
+                    <ul>
+                        <li><strong>Claude (Anthropic):</strong> Melhor para escrita jurídica</li>
+                        <li><strong>ChatGPT (OpenAI):</strong> Melhor para compartilhamento</li>
+                        <li><strong>Gemini (Google):</strong> Grande janela de contexto</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>🚀 Primeiros Passos</h2>
+                    
+                    <div class="success">
+                        <strong>Recomendação:</strong> Assine a versão paga dos modelos (≈ R$ 100/mês). É como ter plano de celular - essencial para uso profissional.
+                    </div>
+                    
+                    <h3>Workflow Básico</h3>
+                    <ol class="process-steps">
+                        <li>Preparar o documento (limpar ruídos se necessário)</li>
+                        <li>Definir o papel/persona para a IA</li>
+                        <li>Fornecer instruções claras e específicas</li>
+                        <li>Incluir exemplos quando possível</li>
+                        <li>Revisar e refinar o resultado</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h2>⚙️ Metodologia de Criação de Prompts</h2>
+                    
+                    <h3>Estratégia do "Prompt Sintético"</h3>
+                    <p>Use a própria IA para criar prompts melhores:</p>
+                    
+                    <ol class="process-steps">
+                        <li>Forneça um exemplo da sua peça (denúncia, petição, etc.)</li>
+                        <li>Peça para a IA analisar e descrever a estrutura</li>
+                        <li>Solicite que crie um prompt baseado na análise</li>
+                        <li>Use o prompt gerado para casos futuros</li>
+                    </ol>
+                    
+                    <div class="code-example">
+"Analise detalhadamente o documento anexo. Trata-se de uma denúncia formal que elaborei. Verifique todos os elementos que integram esse documento, compreenda sua linguagem, estrutura e padrão de organização."
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>💡 Boas Práticas de Prompt</h2>
+                    
+                    <h3>Elementos Essenciais</h3>
+                    <ul>
+                        <li><strong>Definição de papel:</strong> "Aja como promotor de justiça..."</li>
+                        <li><strong>Instruções claras:</strong> Seja específico sobre o que quer</li>
+                        <li><strong>Contexto:</strong> Forneça informações relevantes</li>
+                        <li><strong>Formato de saída:</strong> Como quer a resposta</li>
+                        <li><strong>Delimitadores:</strong> Use ``` ou tags XML</li>
+                    </ul>
+                    
+                    <div class="warning">
+                        <strong>Evite comandos genéricos:</strong> "Considere a jurisprudência dominante" não direciona nada. Seja específico sobre leis e dispositivos.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📝 Aplicações Práticas</h2>
+                    
+                    <h3>Para Denúncias</h3>
+                    <ul>
+                        <li>Análise de inquéritos policiais</li>
+                        <li>Extração de informações principais</li>
+                        <li>Geração de denúncia estruturada</li>
+                        <li>Elaboração de cota ministerial</li>
+                    </ul>
+                    
+                    <h3>Outras Peças Jurídicas</h3>
+                    <ul>
+                        <li>Petições e manifestações</li>
+                        <li>Pareceres técnicos</li>
+                        <li>Relatórios de análise</li>
+                        <li>Resumos executivos</li>
+                    </ul>
+                    
+                    <div class="highlight">
+                        <strong>Vantagem:</strong> A mesma metodologia pode ser adaptada para qualquer tipo de peça jurídica.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>🔧 Ferramentas e Funcionalidades</h2>
+                    
+                    <h3>Claude - Projetos</h3>
+                    <ul>
+                        <li>Prompt de sistema personalizado</li>
+                        <li>Documentos de conhecimento</li>
+                        <li>Reutilização em escala</li>
+                        <li><strong>Limitação:</strong> Só versão paga</li>
+                    </ul>
+                    
+                    <h3>ChatGPT - GPTs Personalizados</h3>
+                    <ul>
+                        <li>Compartilhamento com equipe</li>
+                        <li>Acesso para usuários gratuitos</li>
+                        <li>Limitação de caracteres (8mil)</li>
+                        <li>Interface mais acessível</li>
+                    </ul>
+                    
+                    <div class="platform-comparison">
+                        <div class="platform-card">
+                            <div class="platform-name">Claude</div>
+                            <div class="pros">✅ Melhor escrita</div>
+                            <div class="pros">✅ Mais preciso</div>
+                            <div class="cons">❌ Não compartilha</div>
+                        </div>
+                        <div class="platform-card">
+                            <div class="platform-name">ChatGPT</div>
+                            <div class="pros">✅ Compartilhável</div>
+                            <div class="pros">✅ Mais popular</div>
+                            <div class="cons">❌ Escrita robótica</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>🛠️ Preparação de Documentos</h2>
+                    
+                    <h3>Limpeza de PDFs</h3>
+                    <p>Remoção de ruídos melhora significativamente a qualidade:</p>
+                    <ul>
+                        <li>Cabeçalhos e rodapés repetitivos</li>
+                        <li>Números de páginas</li>
+                        <li>Metadados desnecessários</li>
+                        <li>Formatação inconsistente</li>
+                    </ul>
+                    
+                    <div class="success">
+                        <strong>Em breve:</strong> MP-GO terá ferramenta própria de limpeza de PDFs disponível na intranet.
+                    </div>
+                    
+                    <h3>Anonimização Manual</h3>
+                    <ol class="process-steps">
+                        <li>Converter PDF para texto (.txt ou .md)</li>
+                        <li>Usar editor de texto (Word, VS Code, Bloco de Notas)</li>
+                        <li>Função "Localizar e Substituir"</li>
+                        <li>Trocar nomes, CPFs, RGs por dados fictícios</li>
+                        <li>Verificar contexto para manter coerência</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h2>⚖️ Considerações Éticas e Legais</h2>
+                    
+                    <h3>Direitos Autorais</h3>
+                    <div class="highlight">
+                        <strong>Entendimento:</strong> Não existe direito autoral sobre produção de modelo de IA. É equivalente ao resultado de uma calculadora.
+                    </div>
+                    
+                    <h3>Uso Responsável</h3>
+                    <ul>
+                        <li>Sempre revisar e validar resultados</li>
+                        <li>Não delegar decisões críticas à IA</li>
+                        <li>Manter responsabilidade profissional</li>
+                        <li>Anonimizar dados sensíveis quando necessário</li>
+                    </ul>
+                    
+                    <div class="warning">
+                        <strong>Alucinações:</strong> IAs podem inventar informações. Sempre conferir nomes, datas e referências legais.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Limitações Técnicas</h2>
+                    
+                    <h3>Janela de Contexto</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Tokens</th>
+                                <th>Páginas (~)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Claude</td>
+                                <td>200k</td>
+                                <td>~200</td>
+                            </tr>
+                            <tr>
+                                <td>ChatGPT</td>
+                                <td>128k</td>
+                                <td>~128</td>
+                            </tr>
+                            <tr>
+                                <td>Gemini</td>
+                                <td>1M</td>
+                                <td>~1000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3>Qualidade vs Tamanho</h3>
+                    <p>Recomenda-se usar até 50% da janela de contexto para manter qualidade máxima.</p>
+                </div>
+
+                <div class="card">
+                    <h2>🎯 Próximos Passos</h2>
+                    
+                    <h3>Para Iniciantes</h3>
+                    <ol class="process-steps">
+                        <li>Assinar versão paga de um modelo</li>
+                        <li>Começar com prompts simples</li>
+                        <li>Praticar com inquéritos não-sigilosos</li>
+                        <li>Documentar prompts que funcionam</li>
+                    </ol>
+                    
+                    <h3>Para Avançados</h3>
+                    <ul>
+                        <li>Criar bibliotecas de prompts especializados</li>
+                        <li>Desenvolver workflows automatizados</li>
+                        <li>Integrar com ferramentas da promotoria</li>
+                        <li>Compartilhar conhecimento com equipe</li>
+                    </ul>
+                    
+                    <div class="success">
+                        <strong>Recursos MP-GO:</strong> Aguarde ferramentas proprietárias de limpeza e anonimização de documentos.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Ministério Público de Goiás - SubPLEI</strong></p>
+            <p>Imersão em Inteligência Artificial para Área Jurídica</p>
+            <p>Dr. Rafael Correa Costa | Dr. Marcelo André de Azevedo</p>
+            <p><em>Material baseado na apresentação de 30/05/2025</em></p>
+        </div>
+    </div>
+</body>
+</html>

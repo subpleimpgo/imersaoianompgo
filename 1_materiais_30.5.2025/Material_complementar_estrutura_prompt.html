@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrutura de um Prompt - Cheat Sheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5aa0 50%, #00b894 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a365d 0%, #00b894 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #00b894;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00b894, #1a365d);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            color: #34495e;
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 5px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #00b894, #1a365d);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .highlight::before {
+            content: '💡';
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .warning::before {
+            content: '⚠️';
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #27ae60, #16a085);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .success::before {
+            content: '✅';
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .code-example {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-example::before {
+            content: 'Exemplo:';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #34495e;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .process-steps {
+            counter-reset: step;
+        }
+
+        .process-steps li {
+            counter-increment: step;
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 15px;
+        }
+
+        .process-steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #00b894;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .principles-table th {
+            background: #1a365d;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .principles-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .principles-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .footer {
+            background: #1a365d;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+
+        .numbered-card {
+            position: relative;
+        }
+
+        .numbered-card::after {
+            content: attr(data-number);
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #00b894;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .recommendation {
+            background: #e8f6f3;
+            border: 1px solid #00b894;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .recommendation strong {
+            color: #1a365d;
+        }
+
+        .xml-example {
+            background: #f8f9fa;
+            border: 2px solid #00b894;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            color: #1a365d;
+        }
+
+        .xml-example::before {
+            content: 'Estrutura XML:';
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: 'Segoe UI', sans-serif;
+            color: #00b894;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Estrutura de um Prompt</h1>
+            <div class="subtitle">Síntese técnica fundamentada nas melhores práticas de OpenAI, Anthropic e Google DeepMind</div>
+            <div class="badge">Guia Completo para Engenharia de Prompts</div>
+        </div>
+
+        <div class="content">
+            <div class="grid">
+                
+                <div class="card numbered-card" data-number="1">
+                    <h2>🎭 Definição de Papel ou Persona (Role Prompting)</h2>
+                    
+                    <h3>Objetivo</h3>
+                    <p>Alinhar o modelo com o domínio de conhecimento, a função assumida e o tom esperado da resposta.</p>
+                    
+                    <div class="recommendation">
+                        <strong>Recomendação (OpenAI e Anthropic):</strong> Assumir uma persona aumenta o foco e melhora a qualidade da resposta.
+                    </div>
+                    
+                    <h3>Como aplicar</h3>
+                    <div class="code-example">
+"Você é um juiz de Direito especializado em Execuções Penais..."
+
+"Considere-se um perito técnico do Ministério Público..."
+                    </div>
+                    
+                    <p>Isso induz o modelo a adotar a terminologia e o estilo apropriados para o papel designado.</p>
+                </div>
+
+                <div class="card numbered-card" data-number="2">
+                    <h2>🎯 Instrução Clara, Específica e Colocada no Início</h2>
+                    
+                    <h3>Objetivo</h3>
+                    <p>Estabelecer de forma explícita qual é a tarefa principal.</p>
+                    
+                    <div class="recommendation">
+                        <strong>Recomendação (OpenAI):</strong>
+                        <ul>
+                            <li><strong>Instruções no início:</strong> Coloque a instrução principal no início do prompt.</li>
+                            <li><strong>Delimitadores claros:</strong> Separe instruções do conteúdo de referência com ###, """ ou outros marcadores visuais.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-example">
+Tarefa: Redigir parecer técnico sobre a constitucionalidade da norma abaixo.
+
+### Norma a ser analisada:
+[texto legal]
+                    </div>
+                    
+                    <p>Isso facilita a interpretação da tarefa e evita que o modelo confunda instrução com conteúdo.</p>
+                </div>
+
+                <div class="card numbered-card" data-number="3">
+                    <h2>📝 Detalhamento de Requisitos da Resposta</h2>
+                    
+                    <h3>Objetivo</h3>
+                    <p>Orientar a forma, o estilo, o escopo e os limites da resposta.</p>
+                    
+                    <ul>
+                        <li><strong>Formato:</strong> Indique se deseja texto corrido, lista, tabela, tópicos, JSON etc.</li>
+                        <li><strong>Estilo e tom:</strong> Defina se a linguagem deve ser formal, técnica, objetiva, narrativa, acadêmica etc.</li>
+                        <li><strong>Extensão esperada:</strong> Estabeleça o número de parágrafos, frases ou palavras.</li>
+                        <li><strong>Restrições:</strong> Aponte expressamente o que evitar (ex: "Não utilize reticências nem metáforas").</li>
+                    </ul>
+                    
+                    <div class="code-example">
+"Escreva em português formal, na terceira pessoa, com no máximo dois parágrafos."
+                    </div>
+                    
+                    <div class="highlight">
+                        Um prompt detalhado reduz incertezas e aumenta a precisão do resultado.
+                    </div>
+                </div>
+
+                <div class="card numbered-card" data-number="4">
+                    <h2>📊 Inclusão de Contexto Relevante (Inputs)</h2>
+                    
+                    <h3>Objetivo</h3>
+                    <p>Fornecer informações que fundamentem a resposta.</p>
+                    
+                    <h3>Como aplicar</h3>
+                    <ul>
+                        <li>Apresente os fatos do caso, trechos de documentos, leis, dados ou decisões anteriores.</li>
+                        <li>Delimite o conteúdo com """, Texto:, Fatos:, Contexto:, etc.</li>
+                    </ul>
+                    
+                    <div class="code-example">
+Fatos:
+- Em 12/04/2023, o réu foi flagrado transportando substância entorpecente...
+                    </div>
+                    
+                    <div class="success">
+                        O modelo responde melhor quando compreende claramente os dados do problema.
+                    </div>
+                </div>
+
+                <div class="card numbered-card" data-number="5">
+                    <h2>⚖️ Fundamentação Técnica ou Legal</h2>
+                    
+                    <h3>Objetivo</h3>
+                    <p>Direcionar o raciocínio jurídico, normativo ou técnico da resposta.</p>
+                    
+                    <h3>Como aplicar</h3>
+                    <div class="code-example">
+"Considere os artigos 186 e 927 do Código Civil."
+
+"Fundamente com base na Súmula 37 do STJ."
+                    </div>
+                    
+                    <div class="warning">
+                        A referência explícita reduz o risco de improvisação pelo modelo (hallucinations). De preferência, forneça os artigos e julgados a serem citados ou considerados no prompt ou como "conhecimento".
+                    </div>
+                </div>
+
+                <div class="card numbered-card" data-number="6">
+                    <h2>🚫 Delimitação de Escopo e Proibições</h2>
+                    
+                    <h3>Objetivo</h3>
+                    <p>Impedir extrapolações indevidas, erros factuais ou conteúdo irrelevante.</p>
+                    
+                    <div class="recommendation">
+                        <strong>Recomendação (OpenAI):</strong> Evite ordens apenas negativas; prefira instruções afirmativas com justificativa.
+                    </div>
+                    
+                    <h3>Exemplo de Melhoria</h3>
+                    <div class="code-example">
+❌ "Não invente fatos."
+
+✅ "Apenas utilize os fatos descritos acima. Não inclua informações adicionais."
+                    </div>
+                    
+                    <div class="highlight">
+                        A delimitação clara do escopo torna a resposta mais confiável e objetiva.
+                    </div>
+                </div>
+
+                <div class="card numbered-card" data-number="7">
+                    <h2>📚 Uso de Exemplos (Few-shot Prompting)</h2>
+                    
+                    <h3>Objetivo</h3>
+                    <p>Demonstrar ao modelo como deve ser a estrutura ou o estilo da resposta.</p>
+                    
+                    <div class="recommendation">
+                        <strong>Recomendação (OpenAI, Gemini, Anthropic):</strong>
+                        <ul>
+                            <li>Utilize exemplos curtos e consistentes, com prefixos como "Entrada:", "Saída:", "Exemplo:".</li>
+                            <li>Mantenha todos os exemplos no <strong>mesmo formato e estilo</strong>, evitando ambiguidade.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning">
+                        <strong>Cuidado:</strong> Exemplos em excesso podem restringir a criatividade ou induzir replicações exatas.
+                    </div>
+                    
+                    <p>Ideal para tarefas complexas ou com formato específico (como resumos jurídicos, pareceres estruturados, relatórios técnicos etc.).</p>
+                </div>
+
+                <div class="card numbered-card" data-number="8">
+                    <h2>🏷️ Controle do Formato com Tags XML</h2>
+                    
+                    <h3>Objetivo</h3>
+                    <p>Forçar o modelo a obedecer um estilo ou estrutura específica na resposta.</p>
+                    
+                    <div class="recommendation">
+                        <strong>Recomendação (Claude/Anthropic):</strong> Use tags pseudo-XML para marcar trechos e formatar blocos.
+                    </div>
+                    
+                    <div class="xml-example">
+&lt;parecer&gt;
+&lt;introducao&gt;...&lt;/introducao&gt;
+&lt;fundamentacao&gt;...&lt;/fundamentacao&gt;
+&lt;conclusao&gt;...&lt;/conclusao&gt;
+&lt;/parecer&gt;
+                    </div>
+                    
+                    <p>Isso aumenta a aderência do modelo à estrutura jurídica esperada, útil para sistemas automatizados ou integrações posteriores.</p>
+                </div>
+
+                <div class="card numbered-card" data-number="9">
+                    <h2>🎬 Solicitação Final Clara e Isolada</h2>
+                    
+                    <h3>Objetivo</h3>
+                    <p>Encerrar o prompt reiterando a ação esperada, reforçando o foco da resposta.</p>
+                    
+                    <div class="code-example">
+"Com base no exposto, redija a petição conforme os critérios indicados."
+
+"Agora gere o parecer, observando os tópicos acima."
+                    </div>
+                    
+                    <div class="success">
+                        Um fechamento direto reduz interpretações errôneas sobre o que deve ser produzido.
+                    </div>
+                </div>
+
+                <div class="card numbered-card" data-number="10">
+                    <h2>📐 Organização Visual e Sequencial</h2>
+                    
+                    <h3>Objetivo</h3>
+                    <p>Ajudar o modelo a identificar as partes do prompt por blocos lógicos.</p>
+                    
+                    <div class="recommendation">
+                        <strong>Recomendação Oficial do Google Gemini:</strong> Estruture o prompt com divisões claras:
+                    </div>
+                    
+                    <ol class="process-steps">
+                        <li>Papel (persona)</li>
+                        <li>Instrução principal</li>
+                        <li>Requisitos técnicos</li>
+                        <li>Contexto ou dados</li>
+                        <li>Fundamentação legal</li>
+                        <li>Restrições</li>
+                        <li>Exemplos (se houver)</li>
+                        <li>Solicitação final</li>
+                    </ol>
+                    
+                    <div class="highlight">
+                        A estrutura sequencial melhora a compreensão e aumenta a confiabilidade da resposta.
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Princípios Transversais -->
+            <div class="card" style="grid-column: 1 / -1; margin-top: 30px;">
+                <h2>🌟 Princípios Transversais Essenciais</h2>
+                
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Princípio</th>
+                            <th>Aplicação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Clareza > Ambiguidade</strong></td>
+                            <td>Evite generalizações, seja direto.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Especificidade > Generalidade</strong></td>
+                            <td>Detalhe o que deve ser feito, como e em qual formato.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Afirmativo > Negativo</strong></td>
+                            <td>Prefira "faça isso" a "não faça aquilo".</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Contexto > Presunção</strong></td>
+                            <td>Sempre forneça informações relevantes, não espere que o modelo "deduza".</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Iteratividade > Improviso</strong></td>
+                            <td>Refine o prompt após testar a resposta inicial.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Formatação > Fluxo contínuo</strong></td>
+                            <td>Blocos visuais organizados geram melhores respostas.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="success">
+                    <strong>Próximos Passos:</strong> Se desejar, posso agora aplicar essa estrutura ideal a exemplos concretos para uso jurídico profissional, como: Petição inicial, Parecer jurídico, Denúncia penal, Resumo técnico de jurisprudência.
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Estrutura de um Prompt - Guia Técnico</strong></p>
+            <p>Baseado nas melhores práticas oficiais de OpenAI, Anthropic e Google DeepMind</p>
+            <p><em>Fundamentação técnica para engenharia de prompts profissional</em></p>
+        </div>
+    </div>
+</body>
+</html>
